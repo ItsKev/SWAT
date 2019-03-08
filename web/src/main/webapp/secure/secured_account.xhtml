@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/resources/templates/template.xhtml">
+    <ui:define name="content">
+        <h1>Webshop My Account</h1>
+        <h:form id="addCustomerForm">
+            <ui:fragment rendered="#{accountJSF.accountInformationChanged eq true}">
+                <h:outputText value="The account information has been changed!"/>
+            </ui:fragment>
+            <table cellspacing="5" frame="box" class="customerForm">
+                <tr>
+                    <td><label for="password">Password:</label></td>
+                    <td><h:inputSecret id="password" value="#{accountJSF.customer.password}" size="35"/></td>
+                </tr>
+                <tr>
+                    <td><label for="firstname">Firstname:</label></td>
+                    <td><h:inputText id="firstname" value="#{accountJSF.customer.firstname}" size="35"/></td>
+                </tr>
+                <tr>
+                    <td><label for="lastname">Lastname:</label></td>
+                    <td><h:inputText id="lastname" value="#{accountJSF.customer.lastname}" size="35"/></td>
+                </tr>
+                <tr>
+                    <td><label for="address">Address:</label></td>
+                    <td><h:inputText id="address" value="#{accountJSF.customer.address}" size="35"/></td>
+                </tr>
+                <tr>
+                    <td><label for="email">Email:</label></td>
+                    <td><h:inputText id="email" value="#{accountJSF.customer.email}" size="35"/></td>
+                </tr>
+            </table>
+            <h:commandButton type="button" value="Change Account Information" styleClass="myButton"
+                             action="#{accountJSF.changeAccountInformation}">
+                <f:ajax render="@form" execute="addCustomerForm"/>
+            </h:commandButton>
+        </h:form>
+        <h:dataTable var="singleOrder" value="#{accountJSF.orders}">
+            <f:facet name="header">
+                <h:outputText value="Orders"/>
+            </f:facet>
+            <h:column>
+                <h:outputText value="Date: #{singleOrder.datetime}"/><br/>
+                <h:outputText value="CorrelationId: #{singleOrder.correlationid}"/><br/>
+                <h:outputText value="State: #{singleOrder.state}"/><br/>
+            </h:column>
+        </h:dataTable>
+    </ui:define>
+</ui:composition>

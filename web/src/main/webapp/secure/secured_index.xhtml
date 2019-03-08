@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/resources/templates/template.xhtml">
+    <ui:define name="title">Webshop - Secured Area</ui:define>
+    <ui:define name="content">
+        <h1>Webshop - Secured Area</h1>
+        <h:form>
+            <h:outputText value="Successfully logged in as #{customerSessionJSF.username}"/>
+        </h:form>
+    </ui:define>
+</ui:composition>

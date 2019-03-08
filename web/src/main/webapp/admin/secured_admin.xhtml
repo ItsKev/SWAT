@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/resources/templates/template.xhtml">
+    <ui:define name="content">
+        <h1>Webshop Admin Area</h1>
+        <h:dataTable var="singleCustomer" value="#{adminJSF.allCustomers}">
+            <f:facet name="header">
+                <h:outputText value="Customers"/>
+            </f:facet>
+            <h:column>
+                <h:outputText value="Customer: #{singleCustomer.name}" styleClass="fancytext"/>
+                <h:form id="addCustomerForm" >
+                    <ui:fragment rendered="#{adminJSF.accountInformationChanged eq true}">
+                        <h:outputText value="The account information has been changed!"/>
+                    </ui:fragment>
+                    <table frame="box" class="customerForm">
+                        <tr>
+                            <td><label for="password">Password:</label></td>
+                            <td><h:inputSecret id="password" value="#{singleCustomer.password}" size="35"/></td>
+                        </tr>
+                        <tr>
+                            <td><label for="firstname">Firstname:</label></td>
+                            <td><h:inputText id="firstname" value="#{singleCustomer.firstname}" size="35"/></td>
+                        </tr>
+                        <tr>
+                            <td><label for="lastname">Lastname:</label></td>
+                            <td><h:inputText id="lastname" value="#{singleCustomer.lastname}" size="35"/></td>
+                        </tr>
+                        <tr>
+                            <td><label for="address">Address:</label></td>
+                            <td><h:inputText id="address" value="#{singleCustomer.address}" size="35"/></td>
+                        </tr>
+                        <tr>
+                            <td><label for="email">Email:</label></td>
+                            <td><h:inputText id="email" value="#{singleCustomer.email}" size="35"/></td>
+                        </tr>
+                        <tr>
+                            <td><label for="dynnavcustno">DynNAVCustNo:</label></td>
+                            <td><h:inputText id="dynnavcustno" value="#{singleCustomer.dynnavcustno}" size="35"/></td>
+                        </tr>
+                    </table>
+                    <h:commandButton type="button" value="Change Account Information" styleClass="myButton"
+                                     action="#{adminJSF.changeAccountInformation(singleCustomer)}">
+                        <f:ajax render="@form" execute="addCustomerForm"/>
+                    </h:commandButton>
+                </h:form>
+            </h:column>
+        </h:dataTable>
+    </ui:define>
+</ui:composition>

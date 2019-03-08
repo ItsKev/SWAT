@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/resources/templates/template.xhtml">
+    <ui:define name="title">Webshop - Basket</ui:define>
+    <ui:define name="content">
+        <h1>Basket</h1>
+        <h:form>
+            <ui:fragment rendered="#{basketJSF.basketSize > 0}">
+                <h:commandButton type="button" value="Checkout"
+                                 action="/secure/secured_index_checkout?faces-redirect=true"
+                                 styleClass="checkoutButton">
+                    <f:ajax event="action"/>
+                </h:commandButton>
+            </ui:fragment>
+        </h:form>
+        <h:dataTable var="singleProduct" value="#{basketJSF.basket}" styleClass="basketTable">
+            <h:column>
+                <f:facet name="header">Artist - Song</f:facet>
+                <h:outputText value="#{singleProduct.product.name} - #{singleProduct.product.description} "/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Price</f:facet>
+                <h:outputText value="CHF #{singleProduct.product.unitprice}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Quantity</f:facet>
+                <h:outputText value="#{singleProduct.quantity}"/>
+            </h:column>
+        </h:dataTable>
+    </ui:define>
+</ui:composition>

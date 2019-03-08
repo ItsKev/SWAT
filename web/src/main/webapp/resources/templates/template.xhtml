@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <h:outputStylesheet name="css/default.css"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title><ui:insert name="title">Webshop</ui:insert></title>
+</h:head>
+<h:body>
+    <div id="header">
+        <h:link outcome="/index">
+            <h:graphicImage name="images/logo.gif"/>
+        </h:link>
+    </div>
+    <div class="main">
+        <div id="left">
+            <h:form id="content_form">
+                <ul>
+                    <li><h:commandLink action="/basket" value="Basket"/></li>
+                    <li><h:commandLink action="/index" value="Home"/></li>
+                    <li><h:commandLink action="/catalog" value="Products"/></li>
+                    <ui:fragment rendered="#{customerSessionJSF.username eq null or customerSessionJSF.username eq ''}">
+                        <li><h:commandLink action="/secure/secured_index?faces-redirect=true" value="Login"/></li>
+                    </ui:fragment>
+                    <ui:fragment
+                            rendered="#{customerSessionJSF.username ne null and customerSessionJSF.username ne ''}">
+                        <li><h:commandLink action="/secure/secured_account?faces-redirect=true" value="My Account"/></li>
+                    </ui:fragment>
+                    <ui:fragment
+                            rendered="#{customerSessionJSF.username ne null and customerSessionJSF.username ne '' and customerSessionJSF.admin}">
+                        <li><h:commandLink action="/admin/secured_admin?faces-redirect=true" value="Admin Area"/></li>
+                    </ui:fragment>
+                    <ui:fragment
+                            rendered="#{customerSessionJSF.username ne null and customerSessionJSF.username ne ''}">
+                        <li><h:commandLink action="#{customerSessionJSF.logout}" value="Logout"/></li>
+                    </ui:fragment>
+                </ul>
+            </h:form>
+        </div>
+        <div id="content" class="content">
+            <ui:insert name="content">Content</ui:insert>
+        </div>
+    </div>
+    <div id="bottom">
+        <div class="loggedInAs">
+            <ui:fragment rendered="#{customerSessionJSF.username ne null and customerSessionJSF.username ne ''}">
+                <h:outputText value="Logged in as #{customerSessionJSF.username}"/>
+            </ui:fragment>
+        </div>
+        <div class="webshopG13">
+            Webshop-G13@ENAPP
+        </div>
+    </div>
+</h:body>
+</html>
