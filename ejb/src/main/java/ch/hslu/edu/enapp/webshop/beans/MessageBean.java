@@ -55,12 +55,9 @@ public class MessageBean {
     }
 
     private boolean sendMessage(String purchaseMessageText, String correlationId) {
-        Connection connection = null;
-        Session session = null;
-        try {
-            connection = messageRemoteFactory.createConnection();
-            session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            final MessageProducer messageProducer = session.createProducer(messageRemoteQueue);
+        try (final Connection connection = messageRemoteFactory.createConnection();
+             final Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+             final MessageProducer messageProducer = session.createProducer(messageRemoteQueue)) {
             final TextMessage textMessage = session.createTextMessage(purchaseMessageText);
             textMessage.setStringProperty("MessageFormat", "Version 1.5");
             textMessage.setJMSCorrelationID(correlationId);
@@ -68,21 +65,6 @@ public class MessageBean {
         } catch (final Exception e) {
             LOGGER.error("Failed at sending: " + e.getMessage());
             return true;
-        } finally {
-            if (null != session) {
-                try {
-                    session.close();
-                } catch (final JMSException e) {
-                    LOGGER.error(e.getMessage());
-                }
-            }
-            if (null != connection) {
-                try {
-                    connection.close();
-                } catch (JMSException e) {
-                    LOGGER.error(e.getMessage());
-                }
-            }
         }
         return false;
     }

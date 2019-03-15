@@ -6,7 +6,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.IOException;
 import java.io.Serializable;
 
 @Named
@@ -37,7 +36,7 @@ public class CustomerSessionJSF implements Serializable {
         return accountServices.isAdmin(getUsername());
     }
 
-    public String logout() throws IOException {
+    public String logout() {
         final FacesContext facesContext = FacesContext.getCurrentInstance();
         facesContext.getExternalContext().invalidateSession();
 

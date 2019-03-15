@@ -1,7 +1,6 @@
 package ch.hslu.edu.enapp.webshop.dto;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.Objects;
 
 public class Product {
@@ -10,7 +9,6 @@ public class Product {
     private String description;
     private String mediapath;
     private BigDecimal unitprice;
-    private Collection<Purchaseitem> purchaseitemsById;
 
     public String getArticleNumber() {
         return articleNumber;

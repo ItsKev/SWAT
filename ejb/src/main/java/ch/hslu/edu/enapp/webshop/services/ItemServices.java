@@ -2,6 +2,8 @@ package ch.hslu.edu.enapp.webshop.services;
 
 import ch.hslu.edu.enapp.webshop.dto.Product;
 import ch.hslu.edu.enapp.webshop.msdynnav.generated.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
@@ -19,6 +21,7 @@ import java.util.List;
 @Startup
 public class ItemServices implements ItemServicesLocal {
 
+    private static final Logger LOGGER = LogManager.getLogger(RegisterServices.class);
     private List<Product> products = new ArrayList<>();
 
     @Override
@@ -32,7 +35,7 @@ public class ItemServices implements ItemServicesLocal {
         try {
             wsdl = new URL("http://enapp-was-global02.el.eee.intern:7047/DynamicsNAVTest/WS/iCompany%20HSLU%20T%26A/Page/Item");
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
             return;
         }
         final QName itemPageQName = new QName("urn:microsoft-dynamics-schemas/page/item", "Item_Service");
@@ -46,7 +49,7 @@ public class ItemServices implements ItemServicesLocal {
         final ItemService itemService = new ItemService(wsdl, itemPageQName);
         final ItemPort itemPort = itemService.getItemPort();
 
-        final List<ItemFilter> filterList = new ArrayList<ItemFilter>();
+        final List<ItemFilter> filterList = new ArrayList<>();
         final ItemFilter filter = new ItemFilter();
         filter.setField(ItemFields.PRODUCT_GROUP_CODE);
         filter.setCriteria("MP3");

@@ -15,7 +15,7 @@ public class ItemJSF {
     @Inject
     private ItemServicesLocal itemServices;
 
-    public List<Product> getProducts() throws Exception {
+    public List<Product> getProducts() {
         return itemServices.getProducts();
     }
 }

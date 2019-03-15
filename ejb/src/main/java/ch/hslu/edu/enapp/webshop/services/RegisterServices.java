@@ -3,8 +3,6 @@ package ch.hslu.edu.enapp.webshop.services;
 import ch.hslu.edu.enapp.webshop.dto.Customer;
 import ch.hslu.edu.enapp.webshop.entity.CustomerEntity;
 import ch.hslu.edu.enapp.webshop.entity.CustomertoroleEntity;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -15,8 +13,6 @@ import java.util.List;
 @Stateless
 public class RegisterServices implements RegisterServicesLocal {
 
-    private static final Logger LOGGER = LogManager.getLogger(RegisterServices.class);
-
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -25,7 +21,7 @@ public class RegisterServices implements RegisterServicesLocal {
         TypedQuery<CustomerEntity> getCustomerByName = entityManager.createNamedQuery("getCustomerByName", CustomerEntity.class);
         getCustomerByName.setParameter("name", customer.getName());
         List<CustomerEntity> resultList = getCustomerByName.getResultList();
-        if (resultList.size() == 0) {
+        if (resultList.isEmpty()) {
             CustomerEntity customerEntity = new CustomerEntity();
             customerEntity.setName(customer.getName());
             customerEntity.setFirstname(customer.getFirstname());

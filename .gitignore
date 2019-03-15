@@ -10,6 +10,9 @@
 .idea/**/tasks.xml
 .idea/dictionaries
 
+# ---- Sonar
+sonarlint/
+
 # Sensitive or high-churn files:
 .idea/**/dataSources/
 .idea/**/dataSources.ids

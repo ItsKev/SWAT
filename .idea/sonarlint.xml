@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SonarLintProjectSettings">
+    <option name="fileExclusions">
+      <list>
+        <option value="DIRECTORY:ejb/src/main/java/ch/hslu/edu/enapp/webshop/msdynnav/generated" />
+        <option value="FILE:ejb/src/main/java/ch/hslu/edu/enapp/webshop/jms/ObjectFactory.java" />
+      </list>
+    </option>
+  </component>
+</project>
