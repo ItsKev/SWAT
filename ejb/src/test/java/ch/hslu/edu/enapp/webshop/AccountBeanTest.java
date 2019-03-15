@@ -26,6 +26,7 @@ import static org.mockito.Mockito.when;
 public class AccountBeanTest {
     @Mock
     private EntityManager entityManagerMock;
+
     @Mock
     private TypedQuery<CustomerEntity> queryMock;
 
