@@ -57,7 +57,7 @@ public class AccountBeanTest {
     }
 
     @Test
-    public void getCustomer_NotAvailableCustomer() {
+    public void getCustomer_CustomerNotAvailable() {
         when(queryMock.getResultList()).thenReturn(Collections.emptyList());
         Optional<Customer> customer = accountBean.getCustomer("Jon");
         customer.ifPresent(c -> Assert.fail());
