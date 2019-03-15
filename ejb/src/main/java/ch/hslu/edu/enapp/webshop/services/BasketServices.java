@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Stateful
 public class BasketServices implements BasketServicesLocal {
@@ -88,14 +89,16 @@ public class BasketServices implements BasketServicesLocal {
         LOGGER.info("NcError: " + ncresponse.getNCERROR());
         LOGGER.info("Status: " + ncresponse.getSTATUS());
         final PurchaseEntity purchaseEntity = persistPurchase(customername);
-        Customer customer = accountBean.getCustomer(customername);
-        String correlationId = messageBean.sendMessage(customer, ncresponse.getPAYID(),
-                Integer.toString(purchaseEntity.getId()), getTotalCost().toString(), basket);
-        purchaseEntity.setCorrelationid(correlationId);
-        entityManager.persist(purchaseEntity);
+        Optional<Customer> customer = accountBean.getCustomer(customername);
+        if(customer.isPresent()) {
+            String correlationId = messageBean.sendMessage(customer.get(), ncresponse.getPAYID(),
+                    Integer.toString(purchaseEntity.getId()), getTotalCost().toString(), basket);
+            purchaseEntity.setCorrelationid(correlationId);
+            entityManager.persist(purchaseEntity);
 
-        scheduledTask.addCorrelationId(correlationId, customer);
-        basket.clear();
+            scheduledTask.addCorrelationId(correlationId, customer.get());
+            basket.clear();
+        }
     }
 
     private PurchaseEntity persistPurchase(String customer) {

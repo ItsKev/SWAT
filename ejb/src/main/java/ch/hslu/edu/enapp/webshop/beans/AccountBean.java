@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Stateless
 public class AccountBean {
@@ -16,24 +17,29 @@ public class AccountBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Customer getCustomer(String name) {
-        TypedQuery<CustomerEntity> getCustomerByName = entityManager.createNamedQuery("getCustomerByName", CustomerEntity.class);
+    public Optional<Customer> getCustomer(String name) {
+        TypedQuery<CustomerEntity> getCustomerByName =
+                entityManager.createNamedQuery("getCustomerByName", CustomerEntity.class);
         getCustomerByName.setParameter("name", name);
         List<CustomerEntity> resultList = getCustomerByName.getResultList();
-        CustomerEntity result = resultList.get(0);
-        Customer customer = new Customer();
-        customer.setName(result.getName());
-        customer.setFirstname(result.getFirstname());
-        customer.setLastname(result.getLastname());
-        customer.setAddress(result.getAddress());
-        customer.setEmail(result.getEmail());
-        customer.setPassword("");
-        customer.setDynnavcustno(result.getDynnavcustno());
-        return customer;
+        if (!resultList.isEmpty()) {
+            CustomerEntity result = resultList.get(0);
+            Customer customer = new Customer();
+            customer.setName(result.getName());
+            customer.setFirstname(result.getFirstname());
+            customer.setLastname(result.getLastname());
+            customer.setAddress(result.getAddress());
+            customer.setEmail(result.getEmail());
+            customer.setPassword("");
+            customer.setDynnavcustno(result.getDynnavcustno());
+            return Optional.of(customer);
+        }
+        return Optional.empty();
     }
 
     public List<Customer> getAllCustomers() {
-        TypedQuery<CustomerEntity> customersQuery = entityManager.createNamedQuery("getCustomers", CustomerEntity.class);
+        TypedQuery<CustomerEntity> customersQuery =
+                entityManager.createNamedQuery("getCustomers", CustomerEntity.class);
         List<CustomerEntity> resultList = customersQuery.getResultList();
         List<Customer> customers = new ArrayList<>();
         for (CustomerEntity customerEntity : resultList) {
@@ -50,7 +56,8 @@ public class AccountBean {
     }
 
     public void changeAccountInformation(Customer customer) {
-        TypedQuery<CustomerEntity> getCustomerByName = entityManager.createNamedQuery("getCustomerByName", CustomerEntity.class);
+        TypedQuery<CustomerEntity> getCustomerByName =
+                entityManager.createNamedQuery("getCustomerByName", CustomerEntity.class);
         getCustomerByName.setParameter("name", customer.getName());
         List<CustomerEntity> resultList = getCustomerByName.getResultList();
         CustomerEntity result = resultList.get(0);

@@ -15,6 +15,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Stateless
 public class AccountServices implements AccountServicesLocal {
@@ -29,7 +30,8 @@ public class AccountServices implements AccountServicesLocal {
 
     @Override
     public Customer getCustomer(String name) {
-        return accountBean.getCustomer(name);
+        Optional<Customer> customer = accountBean.getCustomer(name);
+        return customer.orElse(null);
     }
 
     @Override
